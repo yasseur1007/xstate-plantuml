@@ -26,7 +26,7 @@ class Buffer {
 
   appendf(strings, ...values) {
     const sanitize = (value = '') =>
-      value.replace(/[\(\)]/g, '').replace(/-/g, '_');
+      value.toString().replace(/[\(\)]/g, '').replace(/-/g, '_');
 
     const value = strings
       .map((str, i) => str + sanitize(values[i]))

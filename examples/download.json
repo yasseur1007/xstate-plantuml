@@ -5,10 +5,9 @@
     "idle": {
       "on": {
         "START": {
-          "downloading": {
+            "target": "downloading",
             "actions": "initializeCache",
             "cond": "stableConnection"
-          }
         }
       }
     },

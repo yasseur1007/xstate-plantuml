@@ -4,11 +4,11 @@ state "download" as download {
   [*] --> download.idle
 
   state "idle" as download.idle {
-    download.idle --> download.downloading : START\l[stableConnection]\l/initializeCache
+    download.idle --> download.downloading : START\l/
   }
 
   state "downloading" as download.downloading {
-    download.downloading : do/streamChunk
+    download.downloading : do/
     download.downloading --> download.paused : PAUSE
     download.downloading --> download.finished : DONE
   }

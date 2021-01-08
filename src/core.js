@@ -4,8 +4,8 @@ const Buffer = require('./buffer');
 const isStateNode = machine => machine.constructor.name === 'StateNode';
 
 const resolvePath = (stateNode, path) =>
-  typeof path === 'object' ? 
-    path.id : 
+  typeof path === 'object' ?
+    path.id :
     path[0] === '#'
       ? stateNode.getStateNodeById(path).id
       : stateNode.getStateNodeByPath(path).id;
@@ -14,13 +14,13 @@ const iterateTransitions = stateNode => {
   if(!stateNode) {
     return []
   } else {
-    return Object.entries(stateNode.on).reduce((acc,[event, v]) => {            
+    return Object.entries(stateNode.on).reduce((acc,[event, v]) => {
       if(v.length == 1) {
         return ([...acc,{ event, ...v[0] }])
       } else {
         return ([...acc,...v.map( (it,i) => ({ event, ...v[i] }))])
       }
-    },[])      
+    },[])
   }
 }
 
@@ -47,7 +47,7 @@ const transitions = (stateNode, buffer) => {
   const transition = ({ event, target, cond, actions }) => {
     const from = stateNode.id;
     const to = resolvePath(stateNode.parent || stateNode, target[0]);
-    const guards = transitionGuards(cond);    
+    const guards = transitionGuards(cond);
     actions = transitionActions(actions);
     buffer.appendf`${from} --> ${to} : ${event}${guards}${actions}`;
   };
@@ -56,7 +56,7 @@ const transitions = (stateNode, buffer) => {
     const to = resolvePath(stateNode, stateNode.initial);
     buffer.appendf`[*] --> ${to}`;
     buffer.newline();
-  }  
+  }
 
   iterateTransitions(stateNode).forEach(transition);
 };
